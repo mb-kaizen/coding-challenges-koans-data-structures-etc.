@@ -59,9 +59,9 @@ class Binary_Tree
 		end
 	end
 
-	def bfs(node)
+	def bfs
 		queue = []
-		queue.push(node)
+		queue.push(@root)
 
 		while(queue.size != 0)
 			n = queue.shift
@@ -71,8 +71,8 @@ class Binary_Tree
 	end
 end
 
-numbers = [26, 3, 5, 15, 4]
+numbers = [26, 3, 5, 15, 4, 27]
 
 tree = Binary_Tree.new(10)
 numbers.each {|x| tree.insert_node(x)}
-tree.display
+tree.bfs
