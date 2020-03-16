@@ -11,18 +11,30 @@
 # convert("a.b=5") => {a: {b:5}}
 
 def insert_nested(path, value, data)
-    key, remaining_path = path[0], path[1:]
+    # Inserts a value into a hash located at a nested path
 
-    if remaining_path.length == 0 
+    # data = {}
+    # insert_nested(['a', 'b', 'c'], 1, data)
+    # would yield a 'data' of:
+    # {
+    #     'a' => {
+    #         'b' => {
+    #             'c' => 1
+    #         }
+    #     }
+    # }
+    key, remaining_path =  path[0], path.drop(1)
+
+    if remaining_path.empty?
         data[key] = value
     else
-        data[key] = {} if !data.key?(key)
-
+        data[key] = {} unless data.has_key?(key)
         insert_nested(remaining_path, value, data[key])
     end
 end
 
 def parse_query(query)
+    # Given an HTTP query string (without '?'), create hash with parameters
     data = {}
 
     for key_value in query.split('&')
@@ -40,5 +52,5 @@ tests = [
 ]
 
 for test in tests
-    print "#{test}\nmakes: #{parse_query(test)}\n"
+    print "#{test}\nmakes: #{parse_query(test)}\n\n"
 end
