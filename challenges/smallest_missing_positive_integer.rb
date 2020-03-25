@@ -28,54 +28,50 @@
 #     return "Array is complete."
 # end
 
-def sort_negatives(input)
-    postive_index = 0
-    
-    (0...input.size).each do |i|
-        if input[i] <= 0
-            input[i], input[postive_index] = input[postive_index], input[i]
-            postive_index += 1
-        end
-    end
-
-    return positive_index
-end
-
-def find_smallest_missing_from_positives(array)
-    size = array.size
-    
-    # if all positives, will mark all sequentially checked values
+def find_smallest_missing_from_positives(array, size)    
+    # Marks visited elems as negative
     (0...size).each do |i|
-        val = array[i]
+        val = array[i].abs # .abs needed for already negatively marked elems
         if (val - 1 < size) && (array[val-1] > 0)
-            # p val
             array[val-1] = -array[val-1]
         end
     end
 
+    # Returns first positive (i + 1 because index starts at 0)
+    (0...size).each {|i| return i + 1 if array[i] > 0}
+    return size + 1
+end
+
+def sort_negatives(input, size)
+    positive_index = 0 # Keeps track of index of 1st positive element
+
     (0...size).each do |i|
-        if array[i] > 0
-            return i + 1
+        if input[i] <= 0
+            # Swap <= 0 elem with the earliest positive elem
+            input[i], input[positive_index] = input[positive_index], input[i]
+            positive_index += 1
         end
     end
-    # p "Nothing missing."
+    return positive_index
+end
+
+def find_missing(array)
+    size = array.size
+
+    start_point = sort_negatives(array, size)
+    return find_smallest_missing_from_positives(array.drop(start_point), size - start_point)
 end
 
 test_input = [
-    [1,2,4],
+    [1,2,0],
     [3,4,1,1],
-    [7,8,9,11,12],
+    [7,8,-9,11,12],
     [1, 6, 1, 3, 5],
-    [1,2,3,5]
+    [1,2,3,0,5]
 ]
 
-# for test in test_input
-#     p "#{test} ---> #{return_smallest_missing_postive_integer(test)}"
-# end
-
-
 for test in test_input
-    p "#{test} ---> #{find_smallest_missing_from_positives(test)}"
+    p "#{test} ---> #{find_missing(test)}"
 end
 
 # find_smallest_missing_from_positives([1,2,3])
