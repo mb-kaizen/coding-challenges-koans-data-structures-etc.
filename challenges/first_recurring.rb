@@ -1,6 +1,7 @@
 def find_first_recurring(array)
 	visited = {}
 	array.each_with_index do |elem, i|
+		p visited
 		p elem and return if visited.has_value?(elem)
 		visited[i] = elem
 	end

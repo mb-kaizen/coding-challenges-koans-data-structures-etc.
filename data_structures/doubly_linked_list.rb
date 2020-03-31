@@ -8,10 +8,6 @@ class Node
 		@previous_node = previous_node
 	end
 
-	def has_previous_node?
-		@previous_node.nil?
-	end
-
 	def has_next_node?
 		!@next_node.nil?
 	end

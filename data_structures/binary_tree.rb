@@ -30,6 +30,7 @@ class Node
 end
 
 class Binary_Tree
+	attr_reader :root
 	def initialize (data)
 		@root = Node.new(data)
 	end
@@ -71,8 +72,18 @@ class Binary_Tree
 	end
 end
 
+def inorder_dfs(node)
+	unless node.nil?
+		inorder_dfs(node.left_node)
+		p node.data
+		inorder_dfs(node.right_node)
+	end
+end
+
+
 numbers = [26, 3, 5, 15, 4, 27]
 
 tree = Binary_Tree.new(10)
 numbers.each {|x| tree.insert_node(x)}
 tree.bfs
+inorder_dfs(tree.root)

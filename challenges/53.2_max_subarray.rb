@@ -14,7 +14,6 @@ def find_max_subarray(nums)
     end
 
     max_subarray = nums.max if max_subarray == 0
-    p max_subarray
     return max_subarray
 end
 
